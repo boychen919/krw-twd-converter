@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>韓元↔台幣 即時換算</title>
   <style>
     body {
@@ -39,10 +39,10 @@
   <h1>韓元 ↔ 台幣 換算</h1>
 
   <label for="twd">新台幣 (TWD)</label>
-  <input type="number" id="twd" placeholder="輸入台幣" oninput="convertTWD()">
+  <input type="number" id="twd" placeholder="輸入台幣" oninput="convertTWD()" />
 
   <label for="krw">韓元 (KRW)</label>
-  <input type="number" id="krw" placeholder="輸入韓元" oninput="convertKRW()">
+  <input type="number" id="krw" placeholder="輸入韓元" oninput="convertKRW()" />
 
   <div class="rate" id="rateInfo">載入中...</div>
 
@@ -52,7 +52,7 @@
 
     async function fetchRate() {
       try {
-        const res = await fetch('https://api.exchangerate.host/latest?base=TWD&symbols=KRW');
+        const res = await fetch('https://api.frankfurter.app/latest?from=TWD&to=KRW');
         const data = await res.json();
         rateTWDToKRW = data.rates.KRW;
         rateKRWToTWD = 1 / rateTWDToKRW;
