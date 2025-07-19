@@ -52,7 +52,7 @@
 
     async function fetchRate() {
       try {
-        const res = await fetch('https://api.frankfurter.app/latest?from=TWD&to=KRW');
+        const res = await fetch('https://krw-twd-proxy-boychen919.vercel.app/api/proxy');
         const data = await res.json();
         rateTWDToKRW = data.rates.KRW;
         rateKRWToTWD = 1 / rateTWDToKRW;
