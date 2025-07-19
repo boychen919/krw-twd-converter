@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>韓元↔台幣 即時換算</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f4f7;
+      color: #333;
+      max-width: 500px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #0066cc;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 1.2em;
+      margin-top: 5px;
+    }
+    .rate {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>韓元 ↔ 台幣 換算</h1>
+
+  <label for="twd">新台幣 (TWD)</label>
+  <input type="number" id="twd" placeholder="輸入台幣" oninput="convertTWD()">
+
+  <label for="krw">韓元 (KRW)</label>
+  <input type="number" id="krw" placeholder="輸入韓元" oninput="convertKRW()">
+
+  <div class="rate" id="rateInfo">載入中...</div>
+
+  <script>
+    let rateTWDToKRW = 0;
+    let rateKRWToTWD = 0;
+
+    async function fetchRate() {
+      try {
+        const res = await fetch('https://api.exchangerate.host/latest?base=TWD&symbols=KRW');
+        const data = await res.json();
+        rateTWDToKRW = data.rates.KRW;
+        rateKRWToTWD = 1 / rateTWDToKRW;
+        document.getElementById("rateInfo").textContent = `即時匯率：1 TWD ≈ ${rateTWDToKRW.toFixed(2)} KRW`;
+      } catch (err) {
+        document.getElementById("rateInfo").textContent = "⚠️ 無法取得匯率資料";
+        console.error(err);
+      }
+    }
+
+    function convertTWD() {
+      const twd = parseFloat(document.getElementById("twd").value);
+      if (!isNaN(twd)) {
+        document.getElementById("krw").value = (twd * rateTWDToKRW).toFixed(0);
+      }
+    }
+
+    function convertKRW() {
+      const krw = parseFloat(document.getElementById("krw").value);
+      if (!isNaN(krw)) {
+        document.getElementById("twd").value = (krw * rateKRWToTWD).toFixed(2);
+      }
+    }
+
+    fetchRate();
+  </script>
+</body>
+</html>
